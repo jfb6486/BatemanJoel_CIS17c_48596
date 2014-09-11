@@ -11,6 +11,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <iomanip>
+#include <limits>
 
 using namespace std;
 
@@ -23,15 +24,14 @@ private:
     T** triAry;
     
     // Variable declarations
-    int rows,cols;
+    int rows;
+    int cols=15;
     int cls, perLine;
+    int input=0; // variable for row input from user
     
 public:
     // Default constructor
-    myArrays(){rows=0; cols=0;}
-    
-    // Constructor declaration
-    myArrays(int, int);
+    myArrays();
     
     // Deconstructor declaration
     ~myArrays();
@@ -46,8 +46,13 @@ public:
         return cols;
     }
     
+    // Row mutator
+    void setRows(int i){
+        rows = i;
+    }
+    
     // Function Prototypes
-    void myArraysBuilder(int, int);
+    void myArraysBuilder();
     void fillArrayOne();
     void printArrayOne();
     void fillArrayTwo();
@@ -56,33 +61,29 @@ public:
     void printArrayThree();
     void destroyTwo();
     void destroyOne();
+    void inputCheck();
+    void boundsCheck();
 }; // End of myArrays header
 
 // Execution begins here
 int main(int argc, char** argv){
     
-    myArrays<int> i(5, 10);
+    myArrays<int> i;
     // Func. call to myArraysBuilder
-    i.myArraysBuilder(i.getRows(), i.getCols());
+    i.myArraysBuilder();
     
-    myArrays<float> f(5, 10);
+    myArrays<float> f;
     // Func. call to myArraysBuilder
-    f.myArraysBuilder(f.getRows(), f.getCols());
-    
-    myArrays<char> c(5,10);
-    // Func. call to myArraysBuilder
-    c.myArraysBuilder(c.getRows(), c.getCols());
+    f.myArraysBuilder();
     
     return 0; // Exit stage left
 } // End of main
 
 // Constructor
 template <class T>
-myArrays<T>::myArrays(int nRows, int nCols){
-    rows=nRows;
-    cols=nCols;
-    cls=nRows;
-    perLine=nCols;
+myArrays<T>::myArrays(){
+    cols=getCols();
+    perLine=getCols();
 } // End of Constructor
 
 // Deconstructor
@@ -91,9 +92,11 @@ myArrays<T>::~myArrays(){
 } // End of Deconstructor
 
 template <class T>
-void myArrays<T>:: myArraysBuilder(int rows, int cols){
+void myArrays<T>:: myArraysBuilder(){
     //Initialize the random number generator
     srand(static_cast<unsigned int>(time(0)));
+    
+    inputCheck();
     
     // Builds the Arrays
     fillArrayOne();
@@ -109,6 +112,38 @@ void myArrays<T>:: myArraysBuilder(int rows, int cols){
     destroyOne();
     destroyTwo();
 }
+
+// Interger input Check Func.
+template<class T>
+void myArrays<T>::inputCheck(){
+    cout<<"How many rows would you like added to the Column Array?"
+    <<" (Answer must be an Integer value (0 < X <= "<<getCols()<<")\n";
+    cout<<"Input:";
+    while(!(cin>>input)) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout<<"Value enetered is not valid\n";
+        cout<<"How many rows would you like added to the Column Array?"
+        <<" (Answer must be an Integer value (0 < X <= "<<getCols()<<")\n";
+        cout<<"Input:";
+    }
+    boundsCheck();
+    
+}
+
+// Interger input Bounds Check Func.
+template<class T>
+void myArrays<T>::boundsCheck(){
+    if((0<input)&&(input<=getCols())){
+        setRows(input);
+        cls=rows;
+    }
+    else{
+        cout<<"Value enetered is not valid\n";
+        inputCheck();
+    }
+}
+
 
 // fillArray func. #1
 template <class T>
