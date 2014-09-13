@@ -25,6 +25,7 @@ private:
     int arraySize; // Number of elements in the array
     void memError(); // Handles memory allocation errors
     void subError(); // Handles subscripts out of range
+    bool keep=true;
     
 public:
     // Default constructor
@@ -53,6 +54,16 @@ public:
     
     // Removes one value from the top of the array
     void pullFromTop();
+    
+    void menuControl();
+    
+    void displayMenu();
+    
+    void setKeep(bool k){
+        keep=k;
+    }
+    
+    bool getKeep(){ return keep; }
 };
 
 //***********************************************************
@@ -165,6 +176,8 @@ void SimpleVector<T>::pushToTop(T insert)
 {
     *(aptr+arraySize)=insert;
     arraySize++;
+    cout<<"\nValue "<<insert<<" has been added to position ["
+    <<arraySize<<"] of the vector\n";
 }
 
 //*******************************************************
@@ -175,7 +188,75 @@ void SimpleVector<T>::pushToTop(T insert)
 template<class T>
 void SimpleVector<T>::pullFromTop()
 {
+    cout<<"\nValue "<<getElementAt(arraySize-1)<<" has been"
+    <<" removed from position ["<<arraySize<<"] of the vector\n";
     *(aptr+arraySize)=NULL;
     arraySize--;
+}
+
+//*******************************************************
+//
+//
+//
+//*******************************************************
+template<class T>
+void SimpleVector<T>::displayMenu(){
+    
+    cout<<"Options: \n"<<"1) View Vector Contents\n"
+    <<"2) Add an item to Vector\n"
+    <<"3) Delete an item from Vector\n"
+    <<"4) Clear Vector\n"
+    <<"5) Exit Program\n";
+    
+    menuControl();
+}
+
+//*******************************************************
+//
+//
+//
+//*******************************************************
+template<class T>
+void SimpleVector<T>::menuControl(){
+    
+    int choice;
+    T value;
+    
+    cin>>choice;
+    
+    switch (choice) {
+        case 1:
+            if(arraySize>0){
+                cout<<"\nThe elements you entered are:\n";
+                for(int j=0;j<arraySize;j++) {
+                    cout<<"\nElement "<<j+1<<") "<<aptr[j]<<" \n";
+                }
+            }
+            else{
+                cout<<"The Vector has no contents\n\n";
+            }
+            break;
+        case 2:
+            cout<<"What would you like to add to the Vector?\n";
+            cout<<"Input: ";
+            cin>>value;
+            pushToTop(value);
+            break;
+        case 3:
+            pullFromTop();
+            break;
+        case 4:
+            aptr=NULL;
+            arraySize=0;
+            cout<<"Vector has been cleared of all contents\n\n";
+            break;
+        case 5:
+            setKeep(false);
+            break;
+            
+        default:
+            exit(EXIT_FAILURE);
+            break;
+    }
 }
 #endif
