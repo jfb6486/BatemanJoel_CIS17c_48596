@@ -46,9 +46,9 @@ public:
         return cols;
     }
     
-    // Row mutator
+    // Rows mutator
     void setRows(int i){
-        rows = i;
+        rows=i;
     }
     
     // Function Prototypes
@@ -68,13 +68,29 @@ public:
 // Execution begins here
 int main(int argc, char** argv){
     
-    myArrays<int> i;
-    // Func. call to myArraysBuilder
-    i.myArraysBuilder();
+    bool keep=false;
+    char choice;
     
-    myArrays<float> f;
-    // Func. call to myArraysBuilder
-    f.myArraysBuilder();
+    do{
+        myArrays<int> i;
+        // Func. call to myArraysBuilder
+        i.myArraysBuilder();
+        
+        myArrays<float> f;
+        // Func. call to myArraysBuilder
+        f.myArraysBuilder();
+        
+        cout<<"Would you like to run Templated Triangular Matrix again?(Enter y to continue or any other key to exit program)\n";
+        cout<<"Choice:";
+        cin>>choice;
+        
+        if(choice=='y'){
+            keep=true;
+        }
+        else{
+            keep=false;
+        }
+    }while(keep);
     
     return 0; // Exit stage left
 } // End of main
@@ -113,7 +129,7 @@ void myArrays<T>:: myArraysBuilder(){
     destroyTwo();
 }
 
-// Interger input Check Func.
+// Integer Check Func.
 template<class T>
 void myArrays<T>::inputCheck(){
     cout<<"How many rows would you like added to the Column Array?"
@@ -122,16 +138,15 @@ void myArrays<T>::inputCheck(){
     while(!(cin>>input)) {
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout<<"Value enetered is not valid\n";
+        cout<<"Value entered is not valid\n";
         cout<<"How many rows would you like added to the Column Array?"
         <<" (Answer must be an Integer value (0 < X <= "<<getCols()<<")\n";
         cout<<"Input:";
     }
     boundsCheck();
-    
 }
 
-// Interger input Bounds Check Func.
+// Bounds Check Func.
 template<class T>
 void myArrays<T>::boundsCheck(){
     if((0<input)&&(input<=getCols())){
@@ -139,11 +154,10 @@ void myArrays<T>::boundsCheck(){
         cls=rows;
     }
     else{
-        cout<<"Value enetered is not valid\n";
+        cout<<"Value entered is not valid\n";
         inputCheck();
     }
 }
-
 
 // fillArray func. #1
 template <class T>
@@ -247,9 +261,3 @@ void myArrays<T>::destroyTwo(){
     //Destroy colAry
     delete [] colAry;
 } // End of destroy func. #2
-
-
-
-
-
-
