@@ -22,8 +22,8 @@ int main(int argc, char * argv[])
     char nextChar;
     float nextFloat;
     
-    cout<<"Welcome to the Simple Vector Program\n\n"
-    <<"Which type of value type vector would you like"
+    cout<<"Welcome to the Simple Vector Creator\n\n"
+    <<"Which type of vector would you like"
     << " to create?\n1) int\n2) char\n3) float\n";
     while(!(cin>>typeChoice)) {
         cin.clear();

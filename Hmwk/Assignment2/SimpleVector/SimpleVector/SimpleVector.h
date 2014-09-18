@@ -246,7 +246,6 @@ void SimpleVector<T>::menuControl(){
             pullFromTop();
             break;
         case 4:
-            aptr=NULL;
             arraySize=0;
             cout<<"Vector has been cleared of all contents\n\n";
             break;
