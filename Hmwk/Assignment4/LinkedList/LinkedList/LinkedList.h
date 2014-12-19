@@ -14,45 +14,63 @@
 
 using namespace std;
 
-template<class T>
-class Node
+template <class T>
+class LinkedList
 {
 public:
-    template<class U>
-    friend class LinkedList;
-    
-private:
-    T data;
-    Node *next;
-};
-
-template<class T>
-class LinkedList{
-private:
-    int size=0;
-    Node<T>* head;
-    
-public:
     LinkedList(){
-        head=NULL;
-        size=0;
+        head = NULL;
+        tail = NULL;
+    }
+    LinkedList(const LinkedList &l){
+        for (Node *ptr=l.head;ptr!=NULL;ptr=ptr->next){
+            addToTail(ptr->data);
+        }
+    }
+    ~LinkedList(){
+        Node *p;
+        
+        while (!isEmpty())
+        {
+            p = head->next;
+            delete head;
+            head = p;
+        }
     }
     
-    LinkedList(const LinkedList&);
+    void insertBefore(T reference, T data);
+    void insertAfter(T reference, T data);
+    void prepend(T data);
+    void append(T data);
+    int deleteFromHead();
+    int deleteFromTail();
+    void deleteNode(T data);
+    bool contains(T data);
+    T peekFirst();
+    T peekLast();
+    bool isEmpty();
+    void toString();
     
-    void prepend(Node<T>*, T);
-    void append(T);
-    string toString();
-    virtual ~LinkedList();
-    void getFirst();
-    void getLast();
-    void extractData(T);
-    bool insertBefore(T, T);
-    bool insertAfter(T, T);
-    Node<T>* getPrevious(Node<T>*);
-    void setBefore(Node<T>*, Node<T>*);
-    LinkedList<T>& operator=(const LinkedList<T>&);
-    Node<T>* getHead();
+private:
+    class Node
+    {
+    public:
+        T data;
+        Node *next;
+        
+        Node(){
+            data = NULL;
+            next = NULL;
+        }
+        
+        Node(T dataPortion, Node *nextNode=0){
+            data = dataPortion;
+            next = nextNode;
+        }
+    };
     
+    Node *head;
+    Node *tail;
 };
+
 #endif

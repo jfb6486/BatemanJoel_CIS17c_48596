@@ -13,147 +13,87 @@
 
 //Our Library
 #include "LinkedList.h"
-#include "LinkedList.cpp"
-#include "Stack.h"
-#include "Queue.h"
-#include "DoublyLinkedList.h"
-
-priority_queue<char> q1;
 
 using namespace std;
-using namespace stacksavitch;
-using namespace queuesavitch;
 
 int main(int argc, char** argv) {
     
-    // Linked List Testing
-    //Create a linked list
-//    LinkedList<int> list;
-//    
-//    //Append 3 more chains
-//    int clinks=3;
-//
-//    for(int i=1;i<=clinks;i++){
-//        int insert=rand()%20;
-//        list.append(insert);
-//    }
-//    //Print the data
-//    cout<<list.toString()<<endl;
-//    
-//    for(int j=3;j<=clinks+3;j++){
-//        int insert=rand()%20;
-//        list.prepend(list.getHead(), insert);
-//    }
-//    
-//    cout<<list.toString()<<endl;
-//
-//    int insertAtNode=0;
-//    int newValue=0;
-//    
-//    cout<<"Insert Before Test: "<<endl
-//    <<"Enter Node ID to insert before:";
-//    cin>>insertAtNode;
-//    cout<<endl;
-//    cout<<"Value at new node?";
-//    cin>>newValue;
-//    list.insertBefore(insertAtNode, newValue);
-//    cout<<list.toString()<<endl;
-//    
-//    cout<<"Insert After Test: "<<endl
-//    <<"Enter Node ID to after:";
-//    cin>>insertAtNode;
-//    cout<<endl;
-//    cout<<"Value at new node?";
-//    cin>>newValue;
-//    list.insertAfter(insertAtNode, newValue);
-//    cout<<list.toString()<<endl;
-//
-//    list.getFirst();
-//    cout<<endl;
-//    list.getLast();
-//    cout<<endl;
-//    
-//    int read;
-//    cout<<"Extract node Test"<<endl
-//    <<"Which node ID do you want to extract data from?";
-//    cin>>read;
-//    cout<<"Data at Node ID "<< read <<" contains: ";
-//    list.extractData(read);
-    // End of Linked List Testing
+    LinkedList<int> list;
+    int data = 0;
+    int referenceData = 0;
+    int choice = 0;
+    bool active = false;
     
+    cout << "\n\nThis is an Integer only linked list!\n\n";
     
-    // Stack testing
-//    Stack s;
-//    char next, ans;
-//    
-//    do{
-//        cout<<"Enter a word: ";
-//        cin.get(next);
-//        while (next!='\n'){
-//            s.push(next);
-//            cin.get(next);
-//        }
-//        
-//        cout<<"written backwords that is: ";
-//        while(!s.empty()){
-//            cout<<s.pop();
-//        }
-//        cout<<endl;
-//        
-//        cout<<"Again?(y/n): ";
-//        cin>>ans;
-//        cin.ignore(10000, '\n');
-//    }while(ans!='n'&&ans!='N');
-    
-    // Queue testing
-//    Queue q;
-//    char next, ans;
-//    
-//    do{
-//        cout<<"Enter a word: ";
-//        cin.get(next);
-//        while (next!='\n'){
-//            q.add(next);
-//            cin.get(next);
-//        }
-//        
-//        cout<<"You entered: ";
-//        while(!q.empty()){
-//            cout<<q.remove();
-//        }
-//        cout<<endl;
-//        
-//        cout<<"Again?(y/n): ";
-//        cin>>ans;
-//        cin.ignore(10000, '\n');
-//    }while(ans!='n'&&ans!='N');
-    
-    DoublyLinkedList d;
-    int t;
-    cout<<"Enter the number of test cases\n";
-    cin>>t;
-    cout<<"Enter Quieres in this format: \n"
-        <<"For Insertion: \t I Data \n"
-        <<"\tEx:\tI 25 \n";
-    cout<<"For Deletion: \t D Position \n";
-    cout<<"\tEx:\tD 2 \n\n";
-    
-    while(t--){
-        char c;
-        int a;
-        cout<<"Print query: \t";
-        cin>>c;
+    do
+    {
+        // Options
+        cout << "\n1. Append data "<<endl
+        << "2. Prepend data"<<endl
+        << "3. Insert before element x"<<endl
+        << "4. Insert after element x"<<endl
+        << "5. Remove node at the head"<<endl
+        << "6. Remove node at the tail"<<endl
+        << "7. Delete a specific node"<<endl
+        << "8. Show the list's data"<<endl
+        << "0. Quit"<<endl<<endl
+        << "     Select option: ";
         
-        if(c=='I'){
-            cin>>a;
-            d.insertNode(a);
+        // Input choice
+        cin >> choice;
+        
+        
+        switch (choice)
+        {
+            case 1:
+                cout << "\nEnter data to add to the end of the list: ";
+                cin >> data;
+                list.append(data);
+                break;
+            case 2:
+                cout << "\nEnter data to add to the front of the list: ";
+                cin >> data;
+                list.prepend(data);
+                break;
+            case 3:
+                cout << "\nEnter reference data for new data to be placed before it: ";
+                cin >> referenceData;
+                cout << "\nNow please enter the new data: ";
+                cin >> data;
+                list.insertBefore(referenceData, data);
+                break;
+            case 4:
+                cout << "\nEnter reference data for new data to be placed after it: ";
+                cin >> referenceData;
+                cout << "\nNow please enter the new data: ";
+                cin >> data;
+                list.insertAfter(referenceData, data);
+                break;
+            case 5:
+                list.deleteFromHead();
+                break;
+            case 6:
+                list.deleteFromTail();
+                break;
+            case 7:
+                cout << "Enter data that is contained in an existing node,\nand I will remove that node from the list: ";
+                cin >> data;
+                list.deleteNode(data);
+                break;
+            case 8:
+                cout << '\n';
+                list.toString();
+                break;
+            case 0:
+                active=false;
+                break;
+            default:
+                break;
         }
-        else if(c=='D'){
-            cin>>a;
-            d.deleteNode(a);
-        }
-        d.printList();
-    }
+    } while (active==true);
+    
+    cout << '\n';
     
     //Exit stage right!
     return 0;

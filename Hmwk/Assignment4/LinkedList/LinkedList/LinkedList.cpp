@@ -15,201 +15,188 @@
 
 using namespace std;
 
-template<class T>
-void LinkedList<T>::append(T n){
-    Node<T>* newNode;  // To point to a new Node
-    Node<T>* nodePtr;  // To move through the list
-        
-    // Allocate a new Node and store data there
-    newNode = new Node<T>;
-    newNode->data=n;
-    newNode->next=NULL;
-    size++; // Increase list size by 1
+template <class T>
+T LinkedList<T>::peekFirst(){
+    return head->data;
+}
+
+template <class T>
+T LinkedList<T>::peekLast(){
+    return tail->data;
+}
+
+template <class T>
+void LinkedList<T>::insertBefore(T reference, T data){
+    if (isEmpty())
+        return;
     
-    // Make newNode the first node
-    if(!head){
-        head=newNode;
+    Node *currentNode = head;
+    
+    if (currentNode->data == reference){
+        Node *n = new Node(data);
+        n->next = currentNode->next;
+        currentNode->next = n;
+        return;
+    }
+    
+    while (currentNode->next != NULL){
+        if (currentNode->next->data == reference){
+            Node *n = new Node(data);
+            n->next = currentNode->next;
+            currentNode->next = n;
+            return;
+        }
+        
+        currentNode = currentNode->next;
+    }
+}
+
+template <class T>
+void LinkedList<T>::insertAfter(T reference, T data){
+    if (isEmpty())
+        return;
+    
+    Node *currentNode = head;
+    
+    if (currentNode->data == reference){
+        Node *n = new Node(data);
+        n->next = currentNode->next;
+        currentNode->next = n;
+        return;
+    }
+    
+    while (currentNode != NULL){
+        if (currentNode->data == reference){
+            Node *n = new Node(data);
+            n->next = currentNode->next;
+            currentNode->next = n;
+            return;
+        }
+        
+        currentNode = currentNode->next;
+    }
+}
+
+template <class T>
+bool LinkedList<T>::isEmpty(){
+    return head == NULL;
+}
+
+template <class T>
+void LinkedList<T>::prepend(T data){
+    head = new Node(data, head);
+    
+    if (tail == NULL)
+    {
+        tail = head;
+    }
+}
+
+template <class T>
+void LinkedList<T>::append(T data){
+    if (tail != NULL)
+    {
+        tail->next = new Node(data);
+        tail = tail->next;
+    }
+    else
+    {
+        head = tail = new Node(data);
+    }
+}
+
+template <class T>
+int LinkedList<T>::deleteFromHead(){
+    int entry = head->data;
+    Node *tmp = head;
+    
+    if (head == tail){
+        head = tail = NULL;
     }
     else{
-        // Initialize nodePtr to head of list
-        nodePtr=head;
+        head = head->next;
+    }
+    
+    delete tmp;
+    return entry;
+}
+
+template <class T>
+int LinkedList<T>::deleteFromTail(){
+    int entry = tail->data;
+    
+    if (head == tail){
+        delete head;
+        head = tail = NULL;
+    }
+    else{
+        Node *tmp;
         
-        // Find the last nodePtr in the list
-        while (nodePtr->next) {
-            nodePtr=nodePtr->next;
+        for (tmp = head; tmp->next != tail; tmp = tmp->next);
+        
+        delete tail;
+        tail = tmp;
+        tail->next = NULL;
+    }
+    
+    return entry;
+}
+
+template <class T>
+void LinkedList<T>::deleteNode(T data){
+    if (head != NULL){
+        if (head == tail && data == head->data){
+            delete head;
+            head = tail = NULL;
         }
-        
-        // Insert newNode as the last node
-        nodePtr->next=newNode;
-    }
-}
-
-template<class T>
-string LinkedList<T>::toString(){
-    Node<T>* nodePtr;
-    stringstream ss; // reads from nodePtr->data
-    string printNode; // save data from ss
-    int count=0;
-    
-    // Position nodePtr at the head of the list
-    nodePtr=head;
-    
-    // While nodePtr points to a node, transverse the list
-    for (Node<T>* nodePtr=head;nodePtr!=NULL;nodePtr=nodePtr->next){
-        if(nodePtr->data!=0){
-            count++;
-            ss<<count<<")"<<nodePtr->data<<" \n";
+        else if (data == head->data){
+            Node *tmp = head;
+            head = head->next;
+            delete tmp;
         }
-    }
-    printNode=ss.str();
-    cout<<"Size: "<<size<<" \n";
-    
-    return printNode;
-}
-
-template<class T>
-LinkedList<T>::~LinkedList(){
-    Node<T>* nodePtr;
-    Node<T>* nextNode;
-    
-    // Position the nodePtr at the head of the list
-    nodePtr=head;
-    
-    // While nodePtr is not at the end of list
-    while (nodePtr!=NULL){
-        
-        // Save a pointer to the next node
-        nextNode=nodePtr->next;
-        
-        // Delete the current Node
-        delete nodePtr;
-        
-        // Position nodePtr at next node
-        nodePtr=nextNode;
-    }
-}
-
-template<class T>
-void LinkedList<T>::prepend(Node<T>* n, T data){
-    
-    // stl list name = push_front
-    // Allocate a new Node and store the data there
-    Node<T>* temp;
-    temp=new Node<T>;
-    temp->data=data;
-    temp->next=head; // Point newly allocated Node at the head of the list
-    head=temp;  // The newly allocated Node is the head of the list
-    size++; // Increase the size of the list by 1
-}
-
-template<class T>
-void LinkedList<T>::getFirst(){
-    
-    cout<<"First: ";
-    cout<<head->data;
-}
-
-template<class T>
-void LinkedList<T>::getLast(){
-    
-    cout<<"Last: ";
-    for(Node<T>* nodePtr=head;nodePtr!=NULL;nodePtr=nodePtr->next){
-        if(nodePtr->next==NULL){
-            cout<<nodePtr->data;
-        }
-    }
-}
-
-template<class T>
-void LinkedList<T>::extractData(T read){
-    for(Node<T>* nodePtr=head;nodePtr!=NULL;nodePtr=nodePtr->next){
-        if(nodePtr->data==read){
-            cout<<nodePtr->data;
-        }
-    }
-}
-
-template<class T>
-bool LinkedList<T>::insertBefore(T insertAtNode, T newValue){
-    
-    Node<T>* nodePtrPre=NULL;
-    for(Node<T>* nodePtr=head ; nodePtr!=NULL; nodePtr=nodePtr->next)
-    {
-        if(nodePtr->data==insertAtNode)
-        {
-            Node<T>* newNode=new Node<T>;
-            newNode->data=newValue;
-            newNode->next=nodePtr;
-            nodePtrPre->next=newNode;
-            size++;
+        else{
+            Node *pred, *tmp;
             
-            return true;
-        }
-        nodePtrPre = nodePtr;
-    }
-    return false; //false
-}
-
-template<class T>
-bool LinkedList<T>::insertAfter(T insertAtNode, T newValue){
-    
-    for(Node<T>* nodePtr=head ; nodePtr!=NULL; nodePtr=nodePtr->next)
-    {
-        if(nodePtr->data==insertAtNode)
-        {
-            Node<T>* newNode=new Node<T>;
-            newNode=new Node<T>;
-            newNode->data=newValue;
-            newNode->next=nodePtr->next;
-            nodePtr->next=newNode;
-            size++;
+            for (pred = head, tmp = head->next;
+                 tmp != NULL && !(tmp->data == data);
+                 pred = pred->next, tmp = tmp->next);
             
-            return true;
+            if (tmp != NULL){
+                pred->next = tmp->next;
+                if (tmp == tail)
+                {
+                    tail = pred;
+                }
+                
+                delete tmp;
+            }
         }
     }
-    return false;
 }
 
-template<class T>
-Node<T>* LinkedList<T>::getPrevious(Node<T>* node){
-    Node<T>* temp=head;
-    Node<T>* previous=head;
+template <class T>
+bool LinkedList<T>::contains(T data){
+    Node *tmp;
+    int entry = data;
     
-    if(node==head){
-        return NULL;
+    for (tmp=head;tmp!=NULL&&!(tmp->data==entry);tmp=tmp->next);
+    
+    return tmp != NULL;
+}
+
+template <class T>
+void LinkedList<T>::toString(){
+    Node *currentNode = head;
+    int counter = 0;
+    
+    if (currentNode == NULL){
+        cout << "List is empty\n";
+        return;
     }
     
-    while(temp && temp!=node){
-        previous=temp;
-        temp=temp->next;
-    }
-    
-    return previous;
-}
-
-// Assignment Operator Definition
-template<class T>
-LinkedList<T>& LinkedList<T>::operator=(const LinkedList& other){
-    Node<T>* temp=other.head;
-    if(this!=&other){
-        this->append(temp->data);
-        temp=temp->next;
-    }
-    return *this;
-}
-
-// Copy Constructor Definition
-template<class T>
-LinkedList<T>::LinkedList(const LinkedList&l){
-    Node<T>* temp=l.head;
-    while(temp!=NULL)
-    {
-        this->append(temp->data);
-        temp=temp->next;
+    while (currentNode != NULL){
+        cout << "Node " << ++counter << ": " << currentNode->data << '\n';
+        currentNode = currentNode->next;
     }
 }
 
-template<class T>
-Node<T>* LinkedList<T>::getHead(){
-    return head;
-}

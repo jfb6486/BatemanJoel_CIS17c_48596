@@ -1,253 +1,93 @@
-/*
- * File:   linkedList.cpp
- * Author: Kory Brown
- * Created on September 24, 2014
- * Purpose:  Explore creation of a linked list class
- */
+//
+//  main.cpp
+//  LnkdLst
+//
+//  Created by Joel Bateman on 09/24/14.
+//  Copyright (c) 2014 Alpha. All rights reserved.
+//
 
 //System Libraries
 #include <iostream>
 #include <stdlib.h>
-#include "WaitLine.h"
 
 using namespace std;
 
 //Our Library
 #include "LnkdLst.h"
 
-int data = 0;
-//string data = "";
-template<class T>
-void DoubleLinkedList(LnkdLst<T> & );
-template<class T>
-void QueueLinkedList(LnkdLst<T> & );
-template<class T>
-void CircularlyLinkedList(LnkdLst<T> &list);
-
-int main()
+int main(int argc, char **argv)
 {
-    cout << "Enter data for your first node: ";
-    cin  >> data;
-    //cin.clear();
-    cout << endl;
-    LnkdLst<int> list(data, " ");
-//
-
-//    DoubleLinkedList(list);
-    CircularlyLinkedList(list);
+    LinkedList<int> list;
+    int data = 0;
+    int referenceData = 0;
+    int choice = 0;
+    bool quit = false;
     
-//    WaitLine line;
-//    line.simulate ( 2000,  0.1,  40);
-//    //Exit stage right!
-    return 0;
-}
-
-template<class T>
-void DoubleLinkedList(LnkdLst<T> &list)
-{
-    int choice = 0;
-    bool quit = false;
-//    system("clear");
-    T selection;
-    while(!quit)
-    {
-        cout << "1)Append\n"
-             << "2)Prepend Node\n"
-             << "3)Insert Before\n"
-             << "4)Insert After\n"
-             << "5)Extract\n"
-             << "6)Show entered data\n"
-             << "0)Quit\n";
+    cout << "\n\nThis is an INTEGER-based linked list!\n\n";
+    
+    do{
+        cout << "\n1. Append data\n"
+        << "2. Prepend data\n"
+        << "3. Insert before element x\n"
+        << "4. Insert after element x\n"
+        << "5. Delete node from head\n"
+        << "6. Delete node from tail\n"
+        << "7. Delete a specific node\n"
+        << "8. Show the list's data\n"
+        << "0. Quit\n\n"
+        << "     Select option: ";
         
-        cout << "choice: ";
-        cin  >> choice;
-        cout << endl;
+        cin >> choice;
         
-        
-        switch (choice)
-        {
-                
+        switch (choice){
             case 1:
-                cout << "Enter data: ";
-                cin  >> data;
-                    //cin.clear();
-                list.Append(data);
+                cout<<"\nEnter data to add to the end of the list: ";
+                cin>>data;
+                list.append(data);
                 break;
-                
             case 2:
-                cout << "Enter data: ";
-                cin  >> data;
-                    //cin.clear();
-                list.Prepend(data);
+                cout<<"\nEnter data to add to the front of the list: ";
+                cin>>data;
+                list.prepend(data);
                 break;
-                
             case 3:
-                cout << "Enter the data you want to insert before (if data doesnt exist a new node will added at end of list): ";
-                cin  >> selection;
-                cin.clear();
-                cout << "Enter data: ";
-                cin  >> data;
-                    //cin.clear();
-                list.InsertBefore(selection, data);
+                cout<<"\nEnter reference data for new data to be placed before it: ";
+                cin>>referenceData;
+                cout << "\nNow please enter the new data: ";
+                cin >> data;
+                list.insertBefore(referenceData, data);
                 break;
-                
             case 4:
-                cout << "Enter the data you want to insert after (if data doesnt exist a new node will added at end of list): ";
-                cin  >> selection;
-                cin.clear();
-                cout << "Enter data: ";
-                cin  >> data;
-                    //cin.clear();
-                list.InsertAfter(selection, data);
+                cout << "\nEnter reference data for new data to be placed after it: ";
+                cin >> referenceData;
+                cout << "\nNow please enter the new data: ";
+                cin >> data;
+                list.insertAfter(referenceData, data);
                 break;
-                
             case 5:
-                cout << "The length of the list is " << list.ListLength()
-                << "\nWhat node do you want to extract: ";
-                cin  >> choice;
-                    //cin.clear();
-                cout << "Node " << data << " contains " << list.Extract(choice) << endl;
+                list.deleteFromHead();
                 break;
-                
             case 6:
-                list.doubleyToString();
-                break;
-                
-            case 0:
-                quit = true;
-                break;
-                
-            default:
-                break;
-        }
-        cout << endl;
-    }
-}
-
-template<class T>
-void QueueLinkedList(LnkdLst<T> &list)
-{
-    int choice = 0;
-    bool quit = false;
-        //    system("clear");
-    T que;
-    while(!quit)
-    {
-        cout << "1)Enqueue\n"
-        << "2)Dequeue\n"
-        << "0)Quit\n";
-        
-        cout << "choice: ";
-        cin  >> choice;
-        cout << endl;
-        
-        switch (choice)
-        {
-                
-            case 1:
-                cout << "Enter data: ";
-                cin  >> data;
-                    //cin.clear();
-                list.Prepend(data);
-                break;
-            case 2:
-                que = list.Dequeue();
-//                cout << "
-                break;
-                
-            case 0:
-                quit = true;
-                break;
-                
-            default:
-                break;
-        }
-        cout << endl;
-    }
-}
-
-template<class T>
-void CircularlyLinkedList(LnkdLst<T> &list)
-{
-    int choice = 0;
-    bool quit = false;
-        //    system("clear");
-    T selection;
-    while(!quit)
-    {
-        cout << "1)Append\n"
-        << "2)Prepend Node\n"
-        << "3)Insert Before\n"
-        << "4)Insert After\n"
-        << "5)Extract\n"
-        << "6)Sort\n"
-        << "7)Show entered data\n"
-        << "0)Quit\n";
-        
-        cout << "choice: ";
-        cin  >> choice;
-        cout << endl;
-        
-        
-        switch (choice)
-        {
-                
-            case 1:
-                cout << "Enter data: ";
-                cin  >> data;
-                    //cin.clear();
-                list.circularlyAppend(data);
-                break;
-                
-            case 2:
-                cout << "Enter data: ";
-                cin  >> data;
-                    //cin.clear();
-                list.circularlyPrepend(data);
-                break;
-                
-            case 3:
-                cout << "Enter the data you want to insert before (if data doesnt exist a new node will added at end of list): ";
-                cin  >> selection;
-                cin.clear();
-                cout << "Enter data: ";
-                cin  >> data;
-                    //cin.clear();
-                list.circularlyInsertBefore(selection, data);
-                break;
-                
-            case 4:
-                cout << "Enter the data you want to insert after (if data doesnt exist a new node will added at end of list): ";
-                cin  >> selection;
-                cin.clear();
-                cout << "Enter data: ";
-                cin  >> data;
-                    //cin.clear();
-                list.circularlyInsertAfter(selection, data);
-                break;
-                
-            case 5:
-                cout << "The length of the list is " << list.ListLength()
-                << "\nWhat node do you want to extract: ";
-                cin  >> choice;
-                    //cin.clear();
-                cout << "Node " << data << " contains " << list.circularlyExtract(choice) << endl;
-                break;
-              
-            case 6:
-                 list.circularSort();
+                list.deleteFromTail();
                 break;
             case 7:
-                list.circularlyToString();
+                cout << "Enter data that is contained in an existing node,\nand I will remove that node from the list: ";
+                cin >> data;
+                list.deleteNode(data);
                 break;
-                
+            case 8:
+                cout << '\n';
+                list.toString();
+                break;
             case 0:
                 quit = true;
                 break;
-                
             default:
                 break;
         }
-        cout << endl;
-    }
+    } while (quit!=true);
+    
+    cout<<endl;
+    
+    return 0;
 }
