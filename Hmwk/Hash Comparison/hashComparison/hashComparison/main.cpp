@@ -1,7 +1,7 @@
 /*
  * File:   linkedList.cpp
- * Author: Kory Brown
- * Created on September 24, 2014
+ * Author: Joel Bateman
+ * Created on September 26, 2014
  * Purpose:  Explore creation of a linked list class
  */
 

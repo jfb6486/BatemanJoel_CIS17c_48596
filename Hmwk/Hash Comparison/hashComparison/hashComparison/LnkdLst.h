@@ -1,6 +1,6 @@
 /*
  * File:   LnkdLst.h
- * Author: Kory Brown
+ * Author: Joel Bateman
  * Created on September 24, 2014
  * Purpose:  Explore creation of a linked list class
  */
